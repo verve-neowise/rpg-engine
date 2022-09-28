@@ -1,4 +1,4 @@
-package io.neowise.rpgengine.event
+package io.neowise.rpgengine.engine.event
 
 class EventEmitter {
     private val subscribers = mutableListOf<Subscriber<in Event>>()
@@ -12,7 +12,7 @@ class EventEmitter {
     }
 
     fun <T : Event> subscribe(type: String, listener: (event: T) -> Unit) {
-        subscribers.add(Subscriber(type, listener))
+//        subscribers.add(Subscriber(type, listener))
     }
 
     class Subscriber<T>(

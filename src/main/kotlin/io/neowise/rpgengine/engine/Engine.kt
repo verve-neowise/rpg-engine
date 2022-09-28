@@ -1,21 +1,23 @@
 package io.neowise.rpgengine.engine
 
-import io.neowise.rpgengine.components.Component
-import io.neowise.rpgengine.event.EventEmitter
+import io.neowise.rpgengine.engine.components.Component
 import java.awt.Graphics
 import java.awt.image.BufferedImage
 import javax.swing.JComponent
 
-abstract class Engine : JComponent() {
+abstract class Engine(
+    private val screenWidth: Int,
+    private val screenHeight: Int
+) : JComponent() {
 
-    protected val components = mutableListOf<Component>()
-
-    protected val eventEmitter = EventEmitter()
+    private val components = mutableListOf<Component>()
 
     protected var isInitialized = false
         private set
 
-    private val buffer = BufferedImage()
+    private val buffer = BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB)
+
+    protected val graphics = buffer.createGraphics()
 
     fun add(component: Component) {
         components += component
@@ -27,26 +29,27 @@ abstract class Engine : JComponent() {
 
     fun update() {
         for (component in components) {
-            component.update(context())
+            component.update(context)
         }
     }
 
     fun render() {
-
+        for (component in components) {
+            component.render(configuration)
+        }
+        repaint()
     }
 
-    private fun init() {
+    fun init() {
         for (component in components) {
-            component.init(context(), configuration())
+            component.init(context, configuration)
         }
     }
 
     override fun paintChildren(g: Graphics) {
-        for (component in components) {
-            component.init(context(), configuration())
-        }
+        g.drawImage(buffer, 0, 0, null)
     }
 
-    abstract fun context(): Context
-    abstract fun configuration() : Configuration
+    abstract val context: Context
+    abstract val configuration : Configuration
 }

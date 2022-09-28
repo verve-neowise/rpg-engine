@@ -1,4 +1,4 @@
-package io.neowise.rpgengine.components
+package io.neowise.rpgengine.engine.components
 
 import io.neowise.rpgengine.engine.Configuration
 import io.neowise.rpgengine.engine.Context

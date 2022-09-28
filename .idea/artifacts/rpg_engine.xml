@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jpackage" build-on-make="true" name="rpg_engine">
+    <output-path>$PROJECT_DIR$/out/artifacts/rpg_engine</output-path>
+    <root id="root">
+      <element id="archive" name="rpg_engine.jar">
+        <element id="module-output" name="rpg_engine" />
+      </element>
+    </root>
+  </artifact>
+</component>
