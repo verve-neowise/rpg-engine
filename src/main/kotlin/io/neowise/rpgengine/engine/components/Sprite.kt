@@ -2,6 +2,7 @@ package io.neowise.rpgengine.engine.components
 
 import io.neowise.rpgengine.engine.Configuration
 import io.neowise.rpgengine.engine.texture.Texture
+import io.neowise.rpgengine.util.isCollisionDetected
 
 abstract class Sprite(
     override var name: String = "sprite",
@@ -31,9 +32,6 @@ abstract class Sprite(
         val b1 = bounds
         val b2 = other.bounds
 
-        return b1.minX < b2.maxX &&
-                b1.maxX > b2.minX &&
-                b1.minY < b2.maxY &&
-                b1.maxY > b2.minY
+        return isCollisionDetected(b1, b2)
     }
 }

@@ -4,7 +4,6 @@ import io.neowise.rpgengine.Textures
 import io.neowise.rpgengine.engine.Configuration
 import io.neowise.rpgengine.engine.Context
 import io.neowise.rpgengine.engine.components.Bounds
-import io.neowise.rpgengine.engine.components.Component
 import io.neowise.rpgengine.engine.components.Sprite
 import io.neowise.rpgengine.engine.event.KeyState
 import java.awt.event.KeyEvent
@@ -25,31 +24,53 @@ class Player: Sprite() {
 
     private var moveLeft = false
     private var moveRight = false
+    private var moveUp = false
+    private var moveDown = false
+
+    private lateinit var enemy: Enemy
 
     override fun init(context: Context, configuration: Configuration) {
+
+        enemy = context.find()
+
         context.eventEmitter.onKeyEvent {
             val state = it.state == KeyState.PRESSED
             when(it.key) {
                 KeyEvent.VK_A -> moveLeft = state
                 KeyEvent.VK_D -> moveRight = state
+                KeyEvent.VK_W -> moveUp = state
+                KeyEvent.VK_S -> moveDown = state
             }
         }
     }
 
     override fun update(context: Context) {
 
-        val enemy = context.engine.findByName("enemy") as Sprite
+        if (moveRight) {
+            moveWithCheck(5, 0)
+        }
 
-        texture = if (!isCollideWith(enemy)) {
-            if (moveRight) {
-                move(5, 0)
-            }
-            if (moveLeft) {
-                move(-5, 0)
-            }
-            Textures.rocket
-        } else {
+        if (moveLeft) {
+            moveWithCheck(-5, 0)
+        }
+
+        if (moveUp) {
+            moveWithCheck(0, -5)
+        }
+
+        if (moveDown) {
+            moveWithCheck(0, 5)
+        }
+    }
+
+    private fun moveWithCheck(x: Int, y: Int) {
+        move(x, y)
+        texture = if (isCollideWith(enemy)) {
+            move(-x, -y)
             Textures.rocketCollided
+        }
+        else {
+            Textures.rocket
         }
     }
 

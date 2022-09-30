@@ -3,6 +3,7 @@ package io.neowise.rpgengine.engine
 import io.neowise.rpgengine.engine.components.Component
 import io.neowise.rpgengine.engine.event.EventEmitter
 import java.awt.Graphics
+import java.awt.Graphics2D
 import java.awt.image.BufferedImage
 import javax.swing.JComponent
 
@@ -11,16 +12,14 @@ abstract class Engine(
     private val screenHeight: Int
 ) : JComponent() {
 
-    protected open val eventEmitter = EventEmitter()
-
-    private val components = mutableListOf<Component>()
+    val components = mutableListOf<Component>()
 
     protected var isInitialized = false
         private set
 
     private val buffer = BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB)
 
-    protected val graphics = buffer.createGraphics()
+    protected val graphics: Graphics2D = buffer.createGraphics()
 
     fun add(component: Component) {
         components += component
