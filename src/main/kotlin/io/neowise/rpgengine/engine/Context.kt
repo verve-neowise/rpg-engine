@@ -12,10 +12,16 @@ abstract class  Context(val engine: Engine) {
         } as T
     }
 
-    inline fun <reified T> find(): T {
+    inline fun <reified T> findOne(): T {
         return engine.components.find {
             it is T
         } as T
     }
+
+    inline fun <reified T> findAll(): List<T> {
+        return engine.components
+            .filter { it is T }.map { it as T }
+    }
+
 }
 

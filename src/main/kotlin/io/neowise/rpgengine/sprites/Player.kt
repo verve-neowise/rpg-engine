@@ -31,7 +31,7 @@ class Player: Sprite() {
 
     override fun init(context: Context, configuration: Configuration) {
 
-        enemy = context.find()
+        enemy = context.findByName("enemy")
 
         context.eventEmitter.onKeyEvent {
             val state = it.state == KeyState.PRESSED
